@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/mnt/d/Capstone/Capstone/Socket",
-      "program": "/mnt/d/Capstone/Capstone/Socket/build/Debug/outDebug",
+      "cwd": "/mnt/d/Capstone/Capstone/robot-vision-system/Socket",
+      "program": "/mnt/d/Capstone/Capstone/robot-vision-system/Socket/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

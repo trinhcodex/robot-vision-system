@@ -9,6 +9,7 @@ int main(int argc , char *argv[])
     fd_set readfds; 
     int max_fd;
     int activity;
+    const int enable = 1;
 
     double arrayReceived[NUM_OF_PAR]; // data transfer from camera to robot
 
@@ -19,6 +20,10 @@ int main(int argc , char *argv[])
             printf("Could not create socket");
     }
     puts("Socket created");
+
+    if (setsockopt(socket_desc, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
+        error("setsockopt(SO_REUSEADDR) failed");
+    }
 
     //Prepare the sockaddr_in structure
     memset(&server, 0, sizeof(server));
@@ -52,6 +57,10 @@ int main(int argc , char *argv[])
             printf("Could not create socket2");
     }
     puts("Socket2 created");
+
+    if (setsockopt(socket_desc2, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
+        error("setsockopt(SO_REUSEADDR) failed");
+    }
 
     //Prepare the sockaddr_in structure
     memset(&server2, 0, sizeof(server2));
@@ -90,7 +99,7 @@ int main(int argc , char *argv[])
 
         if (FD_ISSET(socket_desc , &readfds)) {
             client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c);
-            printf("test\n");
+            
             if(client_sock < 0)
             {
                 perror("accept failed");
@@ -120,6 +129,7 @@ int main(int argc , char *argv[])
             printf("\n");
 
             close(client_sock);
+            close(socket_desc);
         }
 
         if (FD_ISSET(socket_desc2 , &readfds)) {
@@ -143,11 +153,8 @@ int main(int argc , char *argv[])
             }
             }
             close(client_sock);
+            close(socket_desc2);
         }
     }
-
-    close(socket_desc);
-    close(socket_desc2);
-
     return 0;
 }
