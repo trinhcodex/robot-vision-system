@@ -4,7 +4,7 @@ Unzip Winform-demo.zip and copy the folder `.u2net` to home folder `C:\Users\[Na
 
 # Usage
 
-Apperance:
+Appearance:
 ![alt text](https://cdn.discordapp.com/attachments/1081256318846894242/1099674576788656181/image.png)
 
 * `Score` param: The similarity score between template and objects in the target image `Using 0.75 as default value`
