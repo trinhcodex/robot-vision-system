@@ -4,6 +4,8 @@ Unzip Winform-demo.zip and copy the folder `.u2net` to home folder `C:\Users\[Na
 
 # Usage
 
+Click to `WinFormCVU.exe` to open the application
+
 Appearance:
 ![alt text](https://cdn.discordapp.com/attachments/1081256318846894242/1099674576788656181/image.png)
 
