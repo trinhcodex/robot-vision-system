@@ -2,3 +2,6 @@ __pycache__
 Output
 Stream_camera
 .vscode
+Socket
+runs
+request.sh
