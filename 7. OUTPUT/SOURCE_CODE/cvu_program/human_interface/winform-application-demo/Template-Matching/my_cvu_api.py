@@ -117,7 +117,7 @@ def pattern_matching():
 
         template_gray = image_representation(bgr_template, target='template', representation_algorithms=representation_algorithms)
 
-        boxes, _ = proposal_roi(bgr_img, bgr_template, enhance_algorithms=enhance_algorithms)
+        boxes = proposal_roi(bgr_img, bgr_template, model, conf=0.25, enhance_algorithms=enhance_algorithms)
 
         img_gray = image_representation(bgr_img, target='target_image', representation_algorithms=representation_algorithms)
 
@@ -149,20 +149,56 @@ def pattern_matching():
 
         if len(good_points) == 0:
             return 'No detection found'
+        
+        copy_of_good_points = deepcopy(good_points)
 
-        export_csv(good_points, output_folder)
+        realistic_points = convert_position(copy_of_good_points, pixel_ratio=0.01)
+        
+        send_data(realistic_points, '127.0.0.1', 5003)
+        
+        export_csv(realistic_points, output_folder)
 
         for point_info in good_points:
             point = point_info[0], point_info[1]
+            angle = point_info[2]
             width = point_info[5]
             height = point_info[6]
+            
+            center_x = int(point[0]+width/2)
+            center_y = int(point[1]+height/2)
+            
+            axis_length = 100
+            
+            angle_rad = np.radians(angle)
+            
+            # Calculate the endpoint coordinates for the x-axis line
+            x1 = center_x
+            y1 = center_y
+            x2 = int(center_x + axis_length * np.cos(angle_rad))
+            y2 = int(center_y + axis_length * np.sin(angle_rad))
 
-            cv2.circle(bgr_img, (int(point[0]+width/2), int(point[1]+height/2)), 3, (0, 0, 255), 7)
-            cv2.rectangle(bgr_img, (int(point[0]), int(point[1])), (int(point[0]+width), int(point[1]+height)), (0, 255, 0), 3)
+            # Calculate the endpoint coordinates for the y-axis line
+            x3 = center_x
+            y3 = center_y
+            x4 = int(center_x + axis_length * np.sin(angle_rad))
+            y4 = int(center_y - axis_length * np.cos(angle_rad))
+            
+            color_x = (0, 255, 0)
+            color_y = (0, 0, 255)
+            thickness = 3
+            
+            # Draw the x-axis line
+            cv2.line(bgr_img, (x1, y1), (x2, y2), color_x, thickness)
 
+            # Draw the y-axis line
+            cv2.line(bgr_img, (x3, y3), (x4, y4), color_y, thickness)
+
+        cv2.line(bgr_img, (0, bgr_img.shape[0]), (axis_length, bgr_img.shape[0]), color_x, thickness)
+        cv2.line(bgr_img, (0, bgr_img.shape[0]), (0, bgr_img.shape[0]-axis_length), color_y, thickness)
+        
         cv2.imwrite(path_to_save_image, bgr_img)
 
         return 'Done\n'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
