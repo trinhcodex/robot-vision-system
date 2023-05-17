@@ -109,7 +109,7 @@ namespace WinFormCVU
         private void pictureBox2_DragDrop(object sender, DragEventArgs e)
         {
             string[] file = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (file.Length > 0 && file != null)
+            if (file.Length > 0)
             {
                 string imagePath = file[0];
                 string fullTargetImagePath = imagePath;
@@ -275,8 +275,6 @@ namespace WinFormCVU
             //MessageBox.Show(command);
             //runScriptPython(command, shell);
 
-            MessageBox.Show(templatePath);
-
             var formFields = new Dictionary<string, string>
             {
                 {"api_folder", defaultDirectory},
@@ -364,7 +362,13 @@ namespace WinFormCVU
                     pictureBox2.DrawToBitmap(bitmap, pictureBox2.ClientRectangle);
 
                     Bitmap croppedBitmap = bitmap.Clone(rect, bitmap.PixelFormat);
-                    croppedBitmap.Save(Path.Combine(defaultDirectory, streamTemplatePath), ImageFormat.Png);
+
+                    if (!Directory.Exists(stream_folder))
+                    {
+                        Directory.CreateDirectory(stream_folder);
+                    }
+
+                    croppedBitmap.Save(streamTemplatePath, ImageFormat.Png);
                 }
             }
         }
