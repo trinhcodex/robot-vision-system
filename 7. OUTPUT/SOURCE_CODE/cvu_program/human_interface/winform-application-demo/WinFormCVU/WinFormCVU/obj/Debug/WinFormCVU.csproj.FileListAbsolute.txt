@@ -20,3 +20,14 @@ F:\code\Capstone\Demo-model-AI\WinForm\WinFormCVU\WinFormCVU\obj\Debug\WinFormCV
 F:\code\Capstone\Demo-model-AI\WinForm\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.csproj.CoreCompileInputs.cache
 F:\code\Capstone\Demo-model-AI\WinForm\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.exe
 F:\code\Capstone\Demo-model-AI\WinForm\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.pdb
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\bin\Debug\WinFormCVU.exe.config
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\bin\Debug\WinFormCVU.exe
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\bin\Debug\WinFormCVU.pdb
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.csproj.AssemblyReference.cache
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.csproj.SuggestedBindingRedirects.cache
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.Form1.resources
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.Properties.Resources.resources
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.csproj.GenerateResource.cache
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.csproj.CoreCompileInputs.cache
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.exe
+\\wsl.localhost\Ubuntu-22.04\home\kratosth\code\robot-vision-system\7. OUTPUT\SOURCE_CODE\cvu_program\human_interface\winform-application-demo\WinFormCVU\WinFormCVU\obj\Debug\WinFormCVU.pdb
