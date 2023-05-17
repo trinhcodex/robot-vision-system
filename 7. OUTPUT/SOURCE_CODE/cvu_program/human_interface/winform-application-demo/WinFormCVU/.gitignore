@@ -1,1 +1,6 @@
 .vs
+WinFormCVU/bin/Debug/WinFormCVU.exe
+WinFormCVU/bin/Debug/Stream_camera
+WinFormCVU/bin/Debug/Output
+WinFormCVU/obj/Debug/WinFormCVU.csproj.FileListAbsolute.txt
+WinFormCVU/obj/Debug/WinFormCVU.csproj.GenerateResource.cache
