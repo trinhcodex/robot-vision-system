@@ -12,6 +12,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Drawing.Imaging;
 using System.Net.Http;
+using System.Net.Sockets;
+using System.Net;
+using System.Threading;
 
 namespace WinFormCVU
 {
@@ -27,18 +30,21 @@ namespace WinFormCVU
             textBox5.Text = "-1";
             textBox4.Text = "1";
             textBox10.Text = "5";
+
+            StartServer();
         }
 
         string targetImagePath;
         string templatePath;
-        //string pythonPath = "/home/kratos/.conda/envs/capstone/bin/python";
+
+        string pythonPath = "/home/kratosth/miniconda3/envs/capstone/bin/python";
 
         string defaultDirectory = $"{Application.StartupPath}\\";
         string stream_folder = "Stream_camera";
         string output_folder = "Output";
 
         //string shell = @"C:\windows\system32\cmd.exe";
-        //string shell = "wsl.exe";
+        string shell = "wsl.exe";
 
         private bool isSelecting = false;
         private Rectangle rect;
@@ -46,6 +52,9 @@ namespace WinFormCVU
         private int cornerSize = 7;
 
         private bool isResizing = false;
+
+        private TcpListener serverSocket;
+        private Thread serverThread;
 
         async Task<string> SendRequest(string url, Dictionary<string, string> formFields)
         {
@@ -236,20 +245,28 @@ namespace WinFormCVU
             textBox3.Text = $"{(int)Math.Round(widthPercentage)}%";
         }
 
-        //private void runScriptPython(string command, string shell)
-        //{
-        //    Process process = new Process();
-        //    ProcessStartInfo startInfo = new ProcessStartInfo();
-        //    startInfo.FileName = shell;
-        //    startInfo.WorkingDirectory = defaultDirectory;
-        //    startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        //    //startInfo.Arguments = $"/c \"{command}\"";
-        //    startInfo.Arguments = command;
-        //    process.StartInfo = startInfo;
+        private void runScriptPython(string command, string shell)
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = shell;
+            startInfo.WorkingDirectory = defaultDirectory;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            //startInfo.Arguments = $"/c \"{command}\"";
+            startInfo.Arguments = command;
 
-        //    process.Start();
-        //    process.WaitForExit();
-        //}
+            //startInfo.RedirectStandardOutput = true;
+            //startInfo.RedirectStandardError = true; // Redirect standard error
+            //startInfo.UseShellExecute = false; // Set to false to redirect output
+            process.StartInfo = startInfo;
+
+            process.Start();
+            //string output = process.StandardOutput.ReadToEnd(); // Read the standard output
+            //string error = process.StandardError.ReadToEnd();
+            //string combinedOutput = output + error;
+            //MessageBox.Show(combinedOutput);
+            process.WaitForExit();
+        }
 
         private string get_relativePath(string path, string defaultPaht)
         {
@@ -257,6 +274,60 @@ namespace WinFormCVU
             Uri defaultUri = new Uri(defaultPaht);
             string relativePath = Uri.UnescapeDataString(defaultUri.MakeRelativeUri(fullUri).ToString());
             return relativePath;
+        }
+
+        private void StartServer()
+        {
+            // Set the server IP address and port
+            IPAddress ipAddress = IPAddress.Parse("192.168.176.1");
+            int port = 48951;
+
+            // Create the server socket
+            serverSocket = new TcpListener(ipAddress, port);
+            serverSocket.Start();
+
+            // Start a new thread to accept client connections
+            serverThread = new Thread(new ThreadStart(AcceptClients));
+            serverThread.Start();
+        }
+
+        private void AcceptClients()
+        {
+            while (true)
+            {
+                // Accept an incoming client connection
+                TcpClient clientSocket = serverSocket.AcceptTcpClient();
+
+                // Start a new thread to handle the client connection
+                Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClient));
+                clientThread.Start(clientSocket);
+            }
+        }
+
+        private void HandleClient(object clientObj)
+        {
+            TcpClient clientSocket = (TcpClient)clientObj;
+
+            NetworkStream networkStream = clientSocket.GetStream();
+            byte[] buffer = new byte[clientSocket.ReceiveBufferSize];
+
+            int bytesRead = networkStream.Read(buffer, 0, clientSocket.ReceiveBufferSize);
+            sbyte receivedInteger = (sbyte)buffer[0];
+            //MessageBox.Show($"{receivedInteger}");
+
+            if (receivedInteger == 100)
+            {
+                string pathFile = "/home/kratosth/code/Template-Matching/test.py";
+                string command = $"{pythonPath} {pathFile}";
+                runScriptPython(command, shell);
+                //MessageBox.Show("Complete!!");
+                byte response = 100;
+                networkStream.WriteByte(response);
+                networkStream.Flush();
+            }
+
+            // Close the client socket
+            clientSocket.Close();
         }
 
         private async void button1_Click(object sender, EventArgs e)
